@@ -13,7 +13,9 @@ import {
   SidebarContent,
   SidebarHeader,
   SidebarRail,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
+import { ToggleMode } from "./custom-components/ToggleMode";
 
 const data = {
   user: {
@@ -60,6 +62,9 @@ export function AppSidebar({ onBreadcrumbChange, ...props }) {
         />
       </SidebarContent>
       <SidebarRail />
+      <SidebarFooter>
+        <ToggleMode />
+      </SidebarFooter>
     </Sidebar>
   );
 }
