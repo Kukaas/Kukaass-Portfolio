@@ -1,9 +1,9 @@
-import Home from "./components/dashboard/Home";
-
 function App() {
   return (
     <div>
-      <Home />
+      <header></header>
+      <main></main>
+      <footer></footer>
     </div>
   );
 }
