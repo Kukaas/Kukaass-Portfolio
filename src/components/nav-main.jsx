@@ -18,26 +18,32 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 
-export function NavMain({
-  items
-}) {
+export function NavMain({ items, onBreadcrumbChange }) {
+  const handleLinkClick = (item, subItem) => {
+    const path = subItem
+      ? [
+          { title: item.title, url: "#" },
+          { title: subItem.title, url: subItem.url },
+        ]
+      : [{ title: item.title, url: item.url }];
+
+    onBreadcrumbChange(path);
+  };
+
   return (
-    (<SidebarGroup>
+    <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible">
+          <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  onClick={() => handleLinkClick(item, null)}
+                >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                  <ChevronRight
-                    className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -45,8 +51,11 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
+                        <a
+                          href={subItem.url}
+                          onClick={() => handleLinkClick(item, subItem)}
+                        >
+                          {subItem.title}
                         </a>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
@@ -57,6 +66,6 @@ export function NavMain({
           </Collapsible>
         ))}
       </SidebarMenu>
-    </SidebarGroup>)
+    </SidebarGroup>
   );
 }

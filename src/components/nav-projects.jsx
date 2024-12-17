@@ -17,17 +17,24 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-export function NavProjects({ projects }) {
+export function NavProjects({ projects, onBreadcrumbChange }) {
   const { isMobile } = useSidebar();
+  const handleProjectClick = (project) => {
+    const path = [
+      { title: "Projects", url: "#" },
+      { title: project.name, url: project.url },
+    ];
+    onBreadcrumbChange(path);
+  };
 
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+    <SidebarGroup>
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <a href={item.url} onClick={() => handleProjectClick(item)}>
                 <item.icon />
                 <span>{item.name}</span>
               </a>
@@ -46,17 +53,15 @@ export function NavProjects({ projects }) {
               >
                 <DropdownMenuItem>
                   <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
+                  <a href={item.url} onClick={() => handleProjectClick(item)}>
+                    <span>View Project</span>
+                  </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Forward className="text-muted-foreground" />
                   <span>Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Trash2 className="text-muted-foreground" />
-                  <span>Delete Project</span>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -15,25 +16,39 @@ import {
 } from "@/components/ui/sidebar";
 
 export default function Home() {
+  const [breadcrumbPath, setBreadcrumbPath] = useState([
+    { title: "Home", url: "#" },
+  ]);
+
+  // Function to handle breadcrumb updates
+  const handleBreadcrumbChange = (path) => {
+    setBreadcrumbPath(path);
+  };
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar onBreadcrumbChange={handleBreadcrumbChange} />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+        <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {breadcrumbPath.map((item, index) => (
+                  <BreadcrumbItem key={index}>
+                    {item.url ? (
+                      <BreadcrumbLink href={item.url}>
+                        {item.title}
+                      </BreadcrumbLink>
+                    ) : (
+                      <BreadcrumbPage>{item.title}</BreadcrumbPage>
+                    )}
+                    {index < breadcrumbPath.length - 1 && (
+                      <BreadcrumbSeparator />
+                    )}
+                  </BreadcrumbItem>
+                ))}
               </BreadcrumbList>
             </Breadcrumb>
           </div>

@@ -15,7 +15,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
   user: {
     name: "Chester Luke A. Maligaso",
@@ -36,40 +35,29 @@ const data = {
       icon: SquareTerminal,
       isActive: true,
       items: [
-        {
-          title: "Eduational Background",
-          url: "#",
-        },
-        {
-          title: "About",
-          url: "#",
-        },
+        { title: "Educational Background", url: "#" },
+        { title: "About", url: "#" },
       ],
     },
   ],
   projects: [
-    {
-      name: "School Projects",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Freelancing",
-      url: "#",
-      icon: PieChart,
-    },
+    { name: "School Projects", url: "#", icon: Frame },
+    { name: "Freelancing", url: "#", icon: PieChart },
   ],
 };
 
-export function AppSidebar({ ...props }) {
+export function AppSidebar({ onBreadcrumbChange, ...props }) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={data.navMain} onBreadcrumbChange={onBreadcrumbChange} />
+        <NavProjects
+          projects={data.projects}
+          onBreadcrumbChange={onBreadcrumbChange}
+        />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
